@@ -2,10 +2,7 @@
 
 In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of HSQLDB, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
 
-You'll start with a shell project, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.
-
-###BONUS
-Take a little more time and add a JavaScript driven page to browse the data.
+You'll start with a shell project, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a MySQL database instance.
 
 ##1 Create a new project using the Spring Initializer
 
@@ -62,7 +59,7 @@ public class Greeting {
 
 ##3 Add Repository
 
-Next, create an Interface that will tell Spring Data that you want to setup a Repository to manage our new Domain class.  The empty repository definition will create it with only basic CRUD operations.
+Next, create an Interface that will tell Spring Data that you want to setup a Repository to manage our new Domain class.  The empty repository definition will create it with only basic operations.
 
 1. Right click on the package under src/main/java and select New -> Interface
 2. Enter GreetingRepository for the name, and click Finish
@@ -126,43 +123,26 @@ With all that done, launch the app and browse the data!
 
 ##7 Add a Search Method
 
-Now you're going to add a method to the Repository to do some searching.
+Now add a method to the Repository to do some searching.
 
-TBD
+1.  Go to the GreetingRepository class and add the following method:
+
+```
+  List<Greeting> findByText(@Param("text") String text);  
+```
+
+1. Go to the GreetingConfig class and add the following to the part where you create records:
+
+```
+      gr.save(new Greeting(4, "Hello"));
+```
+
+Restart the application and browse to the URL: http://localhost:8080/greetings/search
+
+Notice the format that it gives you to search.  You can now find the two records you entered that have the value Hello with a URL like this:
+
+http://localhost:8080/greetings/search/findByText?text=Hello
 
 ##8 Push to Cloud Foundry
 
 TBD
-
-##7 BONUS: Add a JavaScript UI
-
-In Progress - TBD
-
-1. Create index.html in src/main/resources/static (default web root for Spring Boot apps)
-2. Install Polymer into the app at web root (static)
-
-```
-bower init
-
-bower install --save Polymer/polymer
-bower install --save PolymerElements/iron-ajax
-bower install --save PolymerElements/paper-button
-```
-
-1. Add the elements directory
-2. Create message-display.html
-3. Update index.html
-
-index.html
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="elements/greeting-display.html">
-  </head>
-  <body>
-    <greeting-display></greeting-display>
-  </body>
-</html>
-```
