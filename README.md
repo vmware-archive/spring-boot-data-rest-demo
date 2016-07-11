@@ -9,7 +9,7 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
-4. Add feature to the application by checking: Web, JPA, HSQLDB, and MySQL.  Click Finish when done, and this will create and load the new project into STS.
+4. Add feature to the application by checking: Web, JPA, Rest Repositories, HSQLDB, and MySQL.  Click Finish when done, and this will create and load the new project into STS.
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
@@ -22,7 +22,7 @@ First create a basic class to model a domain.  This will be nothing more then a 
 3. In the new class add the following code:
 
 ```
-package io.pivotal.hello;
+package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -66,7 +66,7 @@ Next, create an Interface that will tell Spring Data that you want to setup a Re
 3. In the new interface add the following code:
 
 ```
-package io.pivotal.hello;
+package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -85,7 +85,7 @@ In this step you will create a Configuration class that will generate a Bean of 
 3. In the new class add the following code:
 
 ```
-package io.pivotal.hello;
+package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -110,11 +110,30 @@ public class GreetingConfig {
       gr.findAll().forEach(x -> logger.debug(x.toString()));
     };
   }
-
 }
 ```
 
-##5 Browse the Data
+##5 Set Default Properties
+
+1. Rename the file src/main/resources/application.properties to application.yml (select the file, and use the menu Refactor -> Rename...)
+2. Add the following properties
+
+```
+logging:
+  level:
+    io:
+      pivotal: DEBUG
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+```
+
+The first property sets the logging level for everything under the package io.pivotal to DEBUG.  If you named you package something different change the properties to reflect the proper name.  This will allow you to see your logging messages in the Configuration class.
+
+The second property is a Hibernate specific setting.  This will create a schema in the DB to support our applicaiton (destroying any existing version), and when the app closes the Session the schema will be deleted.  This is good for demos where you want to keep your DB clean.  (See the hibernate documentation on more options for this setting.)
+
+##6 Browse the Data
 
 With all that done, launch the app and browse the data!
 
@@ -125,9 +144,13 @@ With all that done, launch the app and browse the data!
 
 Now add a method to the Repository to do some searching.
 
-1.  Go to the GreetingRepository class and add the following method:
+1.  Go to the GreetingRepository class and add the following imports/method:
 
 ```
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+
+//In the Interface
   List<Greeting> findByText(@Param("text") String text);  
 ```
 
