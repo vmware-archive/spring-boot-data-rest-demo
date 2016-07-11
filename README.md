@@ -9,7 +9,7 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
-4. Add feature to the application by checking: Web, JPA, Rest Repositories, HSQLDB, and MySQL.  Click Finish when done, and this will create and load the new project into STS.
+4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, and **MySQL**.  Click Finish when done, and this will create and load the new project into STS.
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
