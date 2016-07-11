@@ -147,7 +147,7 @@ Now add a method to the Repository to do some searching.
 1.  Go to the GreetingRepository class and add the following imports/method:
 
 ```
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 import org.springframework.data.repository.query.Param;
 
 //In the Interface
