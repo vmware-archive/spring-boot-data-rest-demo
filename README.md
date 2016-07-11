@@ -1,5 +1,3 @@
-<link rel="stylesheet" type="text/css" href="./img/image-size.css">
-
 #Build a Spring Boot Application with JPA
 
 In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of HSQLDB, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
@@ -13,8 +11,8 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
 4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, and **MySQL**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
 
-![starter1](./img/starter1.png =100x100)
-![alt text][starter2]
+![starter1](./img/starter1.png)
+![starter2](./img/starter2.png)
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
@@ -145,7 +143,7 @@ With all that done, launch the app and browse the data!
 1. From the Boot Dashboard on STS select the application you created and click the start/re-start button (the one with the red square and green arrow on it).
 2. Switch to or launch a browser and go to the URL: http://localhost:8080/greetings
 
-![alt text][boot-dashboard]
+![alt text](./img/boot-dashboard.png)
 
 ##7 Add a Search Method
 
@@ -177,7 +175,3 @@ http://localhost:8080/greetings/search/findByText?text=Hello
 
 TBD
 
-
-[starter1]: https://github.com/Pivotal-Field-Engineering/spring-boot-data-rest-demo/blob/master/img/starter1.png "Starter Page 1"
-[starter2]: https://github.com/Pivotal-Field-Engineering/spring-boot-data-rest-demo/blob/master/img/starter2.png "Starter Page 2"
-[boot-dashboard]: https://github.com/Pivotal-Field-Engineering/spring-boot-data-rest-demo/blob/master/img/boot-dashboard.png "Boot Dashboard"
