@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="./img/image-size.css">
+
 #Build a Spring Boot Application with JPA
 
 In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of HSQLDB, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
