@@ -9,7 +9,10 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
-4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, and **MySQL**.  Click Finish when done, and this will create and load the new project into STS.
+4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, and **MySQL**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
+
+![alt text][starter1]
+![alt text][starter2]
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
@@ -21,8 +24,8 @@ First create a basic class to model a domain.  This will be nothing more then a 
 2. Enter Greeting for the class name, and click Finish
 3. In the new class add the following code:
 
-```
-package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
+```java
+package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -65,8 +68,8 @@ Next, create an Interface that will tell Spring Data that you want to setup a Re
 2. Enter GreetingRepository for the name, and click Finish
 3. In the new interface add the following code:
 
-```
-package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
+```java
+package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -84,8 +87,8 @@ In this step you will create a Configuration class that will generate a Bean of 
 2. Enter GreetingConfig for the name, and click Finish
 3. In the new class add the following code:
 
-```
-package io.pivotal.hello; //don't copy/paste this unless is matches your packge name
+```java
+package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,7 +121,7 @@ public class GreetingConfig {
 1. Rename the file src/main/resources/application.properties to application.yml (select the file, and use the menu Refactor -> Rename...)
 2. Add the following properties
 
-```
+```properties
 logging:
   level:
     io:
@@ -146,7 +149,7 @@ Now add a method to the Repository to do some searching.
 
 1.  Go to the GreetingRepository class and add the following imports/method:
 
-```
+```java
 import java.util.List;
 import org.springframework.data.repository.query.Param;
 
@@ -156,7 +159,7 @@ import org.springframework.data.repository.query.Param;
 
 1. Go to the GreetingConfig class and add the following to the part where you create records:
 
-```
+```java
       gr.save(new Greeting(4, "Hello"));
 ```
 
@@ -169,3 +172,7 @@ http://localhost:8080/greetings/search/findByText?text=Hello
 ##8 Push to Cloud Foundry
 
 TBD
+
+
+[starter1]: https://github.com/Pivotal-Field-Engineering/spring-boot-data-rest-demo/img/starter1.png "Starter Page 1"
+[starter2]: https://github.com/Pivotal-Field-Engineering/spring-boot-data-rest-demo/img/starter2.png "Starter Page 2"
