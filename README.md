@@ -173,5 +173,39 @@ http://localhost:8080/greetings/search/findByText?text=Hello
 
 ##8 Push to Cloud Foundry
 
-TBD
+In this step you will build the application into a self-executing jar file and deploy it onto the Pivotal WebServices instance of Cloud Foundry using the command line tool ```cf```.  The tool is already installed on the demo machine, and logged in to an account.  For more information on all this, check out the demo and talk with the technical team at the PCF stations.
 
+1. Go to the terminal, and navigate to your application.
+2. Build the application with maven.
+3. Push the applicaiton to Cloud Foundry
+
+```bash
+$ cd ~/S1P2016/workspace/<your project name>
+$ ./mvnw clean package
+(lots of output from build)
+$ cf push your_app_name -t target/your_app_name-0.0.1-SNAPSHOT.jar
+(lots of output from the push)
+```
+
+## Add a Fancy UI
+
+This is an optional step if you want to explore what a JavaScript consumer would look like.
+
+If you're intereted click the link: [Add UI](AddUI.md)
+
+## Cleanup
+
+So the environment is ready for the next person, it would be helpful if you deleted files.  This keeps the project explorer clean, and if the someone happens to use the same name as you did there won't be any conflicts.
+
+Thanks!
+
+1. Delete the app from Cloud Foundry
+
+```bash
+$ cf delete your_app_name
+Really delete the app your_app_name?> y
+```
+
+2. Right click on your project and select delete.  Click yes to delete the files.
+
+# We hope you enjoyed the demo! :-)
