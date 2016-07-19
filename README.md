@@ -180,10 +180,10 @@ In this step you will build the application into a self-executing jar file and d
 3. Push the applicaiton to Cloud Foundry
 
 ```bash
-$ cd ~/S1P2016/workspace/<your project name>
+$ cd ~/S1P2016/workspace/<your_project>
 $ ./mvnw clean package
 (lots of output from build)
-$ cf push your_app_name -t target/your_app_name-0.0.1-SNAPSHOT.jar
+$ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar
 (lots of output from the push)
 ```
 

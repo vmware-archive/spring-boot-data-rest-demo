@@ -1,0 +1,50 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="greeting-display">
+
+  <style>
+  div.bubble {
+    margin: 20px;
+    padding: 20px 20px;
+    border-radius: 20px;
+    background-color: #f1f1f1;
+  }
+  </style>
+  
+  <template>
+    <iron-ajax id="getGreetingsService"
+               url="/greetings"
+               on-response="updateGreetings"></iron-ajax>
+    <div class="bubble">
+    <paper-button on-click="getGreetings" raised>Get The Greetings</paper-button>
+    <p>
+    <table>
+	    <tr><th>Greeting</th><th>Link</th></tr>
+	    <template is="dom-repeat" items="{{greetings}}">
+	        <tr>
+	            <td><span>{{item.text}}</span></td>
+	            <td><a href='{{item._links.self.href}}'>raw data</a></span></td>
+	        </tr>
+	    </template>
+    </table>
+    </p>
+    </div>
+  </template>
+
+  <script>
+	Polymer({
+		is : "greeting-display",
+		ready : function() {
+			this.greetings = [];
+		},
+		getGreetings : function() {
+			this.$.getGreetingsService.generateRequest();
+		},
+		updateGreetings : function(theResponse) {
+			this.greetings = theResponse.detail.response._embedded.greetings;
+		}
+	});
+  </script>
+</dom-module>
