@@ -25,21 +25,24 @@ First create a basic class to model a domain.  This will be nothing more then a 
 3. In the new class add the following code:
 
 ```java
-package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
+package io.pivotal.demo;  //don't copy/paste this unless is matches your packge name
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Greeting {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
   private String text;
-    
-  public Greeting(Integer id, String text) {
+
+  public Greeting(String text) {
     super();
-    this.id = id;
+    //this.id = id;
     this.text = text;
   }
 
@@ -106,9 +109,9 @@ public class GreetingConfig {
   CommandLineRunner loadDatabase(GreetingRepository gr) {
     return commandLineRunner -> {
       logger.debug("loading database..");
-      gr.save(new Greeting(1, "Hello"));
-      gr.save(new Greeting(2, "Hola"));
-      gr.save(new Greeting(3, "Ohai"));
+      gr.save(new Greeting("Hello"));
+      gr.save(new Greeting("Hola"));
+      gr.save(new Greeting("Ohai"));
       logger.debug("record count: {}", gr.count());
       gr.findAll().forEach(x -> logger.debug(x.toString()));
     };
@@ -162,7 +165,7 @@ import org.springframework.data.repository.query.Param;
 1. Go to the GreetingConfig class and add the following to the part where you create records:
 
 ```java
-      gr.save(new Greeting(4, "Hello"));
+      gr.save(new Greeting("Hello"));
 ```
 
 Restart the application and browse to the URL: http://localhost:8080/greetings/search
