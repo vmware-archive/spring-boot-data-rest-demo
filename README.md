@@ -42,7 +42,6 @@ public class Greeting {
 
   public Greeting(String text) {
     super();
-    //this.id = id;
     this.text = text;
   }
 

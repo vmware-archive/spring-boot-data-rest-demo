@@ -2,6 +2,10 @@
 
 While it's great to see data in JSON format, it's even more fun to put a UI on it and see if we can drive some more interesting behavior.  In this part of the demo you will add a JavaScript UI to the application.
 
+For this app we're going to use the Google Polymer JavaScript library.  This is a powerful framework and set of components that is based on the WebComponents specs from W3C.  If you're not familiar with Polymer or WebComonents that's OKay, this is going to be all copy/past, but the code will give you a sense of what it does.
+
+Why Polymer?  See <a href="#WhyPolymer">here</a>
+
 ## Add the Single Page
 
 This will be a SPA (Single Page Application), so start by creating the single page.  This is nothing but an index.html that will eventually hold our Web Components.
@@ -23,12 +27,10 @@ This will be a SPA (Single Page Application), so start by creating the single pa
 </html>
 ```
 
-The script tag includes the basics for a webcomponents implementation.  The link imports the greeting display that we'll create in the next section.  In the body you can see that we simply use a custom component.
+The script tag includes the basics for a webcomponents implementation for browsers that don't support it natively.  The link imports the greeting-display custom component that we'll create in the next sections, and we add it to the page as you do any other component.
 
 
 ### Add the JavaScript libraries
-
-For this page we're going to use the Google Polymer JavaScript library.  This is a powerful framework and set of components that is based on the WebComponents specs from W3C.  If you're not familiar with Polymer or WebComonents that's OKay, this is going to be all copy/past, but the code will give you a sense of what it does.
 
 1. Go back to the Terminal, and navigate to the static directory.  EG: ~/S1P2016/workspace/<your_project>/src/main/resources/static
 2. Install the appropriate Polymer libraries
@@ -41,13 +43,13 @@ bower install --save PolymerElements/iron-ajax
 bower install --save PolymerElements/paper-button
 ```
 
-Important!  Eclipse will not see the files until you tell it to refresh its view.  In the Package Explorer Right-click on the static directory and select "Refresh".  You will now see the created bower.json and bower_components directory.
+> Important!  Eclipse will not see the files until you tell it to refresh its view.  In the Package Explorer Right-click on the static directory and select "Refresh".  You will now see the created bower.json and bower_components directory.
 
 ## Create the Display Component
 
 1. Right-click on /src/main/resources/static and select New -> Folder.  Name it elements.
 2. Right-click on the elements directory and select New -> File.  Name it greeting-display.html
-3. OpenCopy the contents below into the file.
+3. Copy the contents below into the file.
 
 ```html
 <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -76,10 +78,10 @@ Important!  Eclipse will not see the files until you tell it to refresh its view
     <p>
     <table>
 	    <tr><th>Greeting</th><th>Link</th></tr>
-	    <template is="dom-repeat" items="{{greetings}}">
+	    <template is="dom-repeat" items="[[greetings]]">
 	        <tr>
-	            <td>{{item.text}}</td>
-	            <td><a href='{{item._links.self.href}}'>raw data</a></span></td>
+	            <td>[[item.text]]</td>
+	            <td><a href='[[item._links.self.href]]'>raw data</a></span></td>
 	        </tr>
 	    </template>
     </table>
@@ -104,6 +106,7 @@ Important!  Eclipse will not see the files until you tell it to refresh its view
 </dom-module>
 ```
 
+Brief description:  This collection of html, css, and JavaScript is used by Polymer to define a custom WebComponent named greeting-display.  The imports bring in other components we want to use, for fun we define and use a local style, the template section is what gets put in the DOM, and the script tells the Polymer framwork to define the component and some additional functions, including overriding the default ready() function to define the greetings data element.  In the template there is a sub-template for the repeating section, and the parts in the square brackets ([[foo]]) are data elements with Polymer managed bindings.  Square brackets mean it's "one way", so updating the table doesn't update the underlying data.  We'll see "two way" binding later.
 
 Now go look a the page.  No need to restart the app if it's already running, just go to your browser and navigate to http://localhost:8080  Click on the button, and the greetings will load into a table.  There is also a link, extracted from the data, that will take you to the raw JSON version of the individual greetings.
 
@@ -188,7 +191,7 @@ Finally, add the new data element to the ready() function and create some handle
 
 That's it!  Save, refresh the page, and try it out.  You should be able to type in a new Greeting and when you hit Enter it'll be added to the database.
 
-
+<a name="WhyPolymer"/>
 ## Why Polymer?
 
 There are lots of great choices for JavaScript libraries out there, and Pivotal doen't express a preference.  Angular is well known, and React.js has lots of good buzz around it.  So why use the lesser known Polymer?  If you have done the tutorial then you know that Polymer has some nice components available for it, good encapsulation for custom WebComponents, support for repeting sections, and very useful data binding features.  These come together to bring a lot of functionality in some pretty tidy JavaScript that's easy to understand.
