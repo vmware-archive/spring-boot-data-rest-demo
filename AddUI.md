@@ -30,10 +30,10 @@ This will be a SPA (Single Page Application), so start by creating the single pa
 The script tag includes the basics for a webcomponents implementation for browsers that don't support it natively.  The link imports the greeting-display custom component that we'll create in the next sections, and we add it to the page as you do any other component.
 
 
-### Add the JavaScript libraries
+## Add the JavaScript libraries
 
-1. Go back to the Terminal, and navigate to the static directory.  EG: ~/S1P2016/workspace/<your_project>/src/main/resources/static
-2. Install the appropriate Polymer libraries
+1. Go back to the Terminal, and navigate to the static directory.  EG: ~/S1P2016/workspace/(your_project)/src/main/resources/static
+2. Install the appropriate Polymer libraries using bower
 
 ```bash
 bower init
@@ -43,7 +43,7 @@ bower install --save PolymerElements/iron-ajax
 bower install --save PolymerElements/paper-button
 ```
 
-> Important!  Eclipse will not see the files until you tell it to refresh its view.  In the Package Explorer Right-click on the static directory and select "Refresh".  You will now see the created bower.json and bower_components directory.
+> Important!  Eclipse will not see the files until you tell it to refresh its view.  In the Package Explorer Right-click on the static directory and select "Refresh".  You will now see the created bower.json and bower_components directory, but more importantly, so will the webserver embeded in the app.
 
 ## Create the Display Component
 
@@ -106,9 +106,11 @@ bower install --save PolymerElements/paper-button
 </dom-module>
 ```
 
-Brief description:  This collection of html, css, and JavaScript is used by Polymer to define a custom WebComponent named greeting-display.  The imports bring in other components we want to use, for fun we define and use a local style, the template section is what gets put in the DOM, and the script tells the Polymer framwork to define the component and some additional functions, including overriding the default ready() function to define the greetings data element.  In the template there is a sub-template for the repeating section, and the parts in the square brackets ([[foo]]) are data elements with Polymer managed bindings.  Square brackets mean it's "one way", so updating the table doesn't update the underlying data.  We'll see "two way" binding later.
+Brief description:  This collection of html, css, and JavaScript is used by Polymer to define a custom WebComponent named greeting-display.  The imports bring in other components we want to use, for fun we define and use a local style, the template section is what gets put in the DOM, and the script tells the Polymer framwork to define the component and some additional functions, including overriding the default ready() function to define the greetings data element.  In the template there is a sub-template for the repeating section, and the parts in the square brackets ```[[foo]]``` are data elements with Polymer managed bindings.  Square brackets mean it's "one way".  We'll see "two way" binding later.
 
 Now go look a the page.  No need to restart the app if it's already running, just go to your browser and navigate to http://localhost:8080  Click on the button, and the greetings will load into a table.  There is also a link, extracted from the data, that will take you to the raw JSON version of the individual greetings.
+
+The rest of the tutorial builds on this component.  If you want to see the finished version you can find it here: [greeting-display](greeting-display.html)
 
 ## Add Search
 
@@ -118,7 +120,7 @@ Since the service supports a simple search, you can go ahead and add that to the
 bower install --save PolymerElements/paper-input
 ```
 
-Note: Refresh the eclipse view as above (right-click static, Refresh) or the webserver will not see the new files.
+> Refresh the eclipse view as above (right-click static, Refresh) or the webserver will not see the new files.
 
 Add the import for the paper-input control at the top next to the other ones.
 
