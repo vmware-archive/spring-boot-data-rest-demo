@@ -11,7 +11,13 @@
     padding: 20px 20px;
     border-radius: 20px;
     background-color: #f1f1f1;
+    width: 15em;
   }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  paper-input { width: 10em; }
   </style>
   
   <template>
@@ -30,17 +36,17 @@
                on-response="greetingAdded"></iron-ajax>
 
     <div class="bubble">
-    <paper-button on-click="getGreetings" raised>Get The Greetings</paper-button>
+    <center><paper-button on-click="getGreetings" raised>Get The Greetings</paper-button></center>
     <paper-input label="Enter Search Word" value="{{searchString.text}}"></paper-input>
     <paper-input label="Add Greeting" value="{{newGreeting.text}}" on-change="addGreeting"></paper-input>
 
     <p>
-    <table>
+    <table style="width:100%">
 	    <tr><th>Greeting</th><th>Link</th></tr>
 	    <template is="dom-repeat" items="[[greetings]]">
 	        <tr>
-	            <td>[[item.text]]</td>
-	            <td><a href='[[item._links.self.href]]'>raw data</a></span></td>
+	            <td style="padding:0px 8px">[[item.text]]</td>
+	            <td style="text-align:center"><a href='[[item._links.self.href]]'>raw data</a></span></td>
 	        </tr>
 	    </template>
     </table>

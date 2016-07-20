@@ -64,6 +64,11 @@ bower install --save PolymerElements/paper-button
     padding: 20px 20px;
     border-radius: 20px;
     background-color: #f1f1f1;
+    width: 15em;
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
   }
   </style>
   
@@ -73,15 +78,15 @@ bower install --save PolymerElements/paper-button
                on-response="updateGreetings"></iron-ajax>
 
     <div class="bubble">
-    <paper-button on-click="getGreetings" raised>Get The Greetings</paper-button>
+    <center><paper-button on-click="getGreetings" raised>Get The Greetings</paper-button><center>
 
     <p>
-    <table>
+    <table style="width:100%">
 	    <tr><th>Greeting</th><th>Link</th></tr>
 	    <template is="dom-repeat" items="[[greetings]]">
 	        <tr>
-	            <td>[[item.text]]</td>
-	            <td><a href='[[item._links.self.href]]'>raw data</a></span></td>
+	            <td style="padding:0px 8px">[[item.text]]</td>
+	            <td style="text-align:center"><a href='[[item._links.self.href]]'>raw data</a></span></td>
 	        </tr>
 	    </template>
     </table>
@@ -126,6 +131,12 @@ Add the import for the paper-input control at the top next to the other ones.
 
 ```html
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+```
+
+So the input fields don't get too big, add a style to the list in the ```<style>``` block.
+
+```css
+  paper-input { width: 10em; }
 ```
 
 Add a new hidden ajax control.  The end point is the findByText method we defined in the repository.  The params field is a JSON Key/Value object that is added to the GET request when the component is triggered.  In this case we are binding it to a data element called searchString (defined below).  The square brackets tell Polymer that it's a "one way" binding.  Notice we take advantage of the same updateGreetings method as used in the getGreetings service.  The "auto" property will tell the component to call the service when ever the params (or url) property changes, in this case when ever the searchString data changes.
