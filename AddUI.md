@@ -125,7 +125,7 @@ Since the service supports a simple search, you can go ahead and add that to the
 bower install --save PolymerElements/paper-input
 ```
 
-> Refresh the eclipse view as above (right-click static, Refresh) or the webserver will not see the new files.
+> Important!  Refresh the eclipse view as above (right-click static, Refresh) or the webserver will not see the new files.  You'll know this because the control won't show up.
 
 Add the import for the paper-input control at the top next to the other ones.
 
@@ -139,7 +139,7 @@ So the input fields don't get too big, add a style to the list in the ```<style>
   paper-input { width: 10em; }
 ```
 
-Add a new hidden ajax control.  The end point is the findByText method we defined in the repository.  The params field is a JSON Key/Value object that is added to the GET request when the component is triggered.  In this case we are binding it to a data element called searchString (defined below).  The square brackets tell Polymer that it's a "one way" binding.  Notice we take advantage of the same updateGreetings method as used in the getGreetings service.  The "auto" property will tell the component to call the service when ever the params (or url) property changes, in this case when ever the searchString data changes.
+Add a new hidden ajax control.  It doesn't matter where, so long as it's in the ```<template>``` block, but I put it right under the other one.  The end point is the findByText method we defined in the repository.  The params field is a JSON Key/Value object that is added to the GET request when the component is triggered.  In this case we are binding it to a data element called searchString (defined below).  The square brackets tell Polymer that it's a "one way" binding.  Notice we take advantage of the same updateGreetings method as used in the getGreetings service.  The "auto" property will tell the component to call the service when ever the params (or url) property changes, in this case when ever the searchString data changes.
 
 ```html
     <iron-ajax id="getGreetingsSearchService"
@@ -148,7 +148,7 @@ Add a new hidden ajax control.  The end point is the findByText method we define
                on-response="updateGreetings" auto></iron-ajax>
 ```
 
-Add the input control.  The value is bound to the value of the key "text" in the searchString data element.  The curly brackes tell Polymer that it's "two way" so that when the value of the input control changes the value of the data element changes as well.
+Add the input control below the ```paper-button```.  The value is bound to the value of the key "text" in the searchString data element.  The curly brackes tell Polymer that it's "two way" so that when the value of the input control changes the value of the data element changes as well.
 
 ```html
     <paper-input label="Enter Search Word" value="{{searchString.text}}"></paper-input>
@@ -180,7 +180,7 @@ Start with the ajax call.  In this case we have set the method to POST and bound
                on-response="greetingAdded"></iron-ajax>
 ```
 
-Add another input field to gather the new Greeting.  You are binding the on-change even to another method called addGreeting which will tell the new service component to send the data to the server.
+Add another input field to gather the new Greeting.  Put it below the other ```paper-input```.  You are binding the on-change even to another method called addGreeting which will tell the new service component to send the data to the server.
 
 ```html
     <paper-input label="Add Greeting" value="{{newGreeting.text}}" on-change="addGreeting"></paper-input>
@@ -194,10 +194,10 @@ Finally, add the new data element to the ready() function and create some handle
 			this.searchString = {"text" : ""};
 			this.newGreeting  = {"text" : ""}; //add this
 		},
-		addGreeting: function() {
+		addGreeting: function() { //add this function
 			this.$.addGreetingService.generateRequest();
 		},
-		greetingAdded: function(theResponse) {
+		greetingAdded: function(theResponse) { //add this function
 			this.$.getGreetingsService.generateRequest();
 		},
 ```
@@ -207,4 +207,4 @@ That's it!  Save, refresh the page, and try it out.  You should be able to type 
 <a name="WhyPolymer"/>
 ## Why Polymer?
 
-There are lots of great choices for JavaScript libraries out there, and Pivotal doen't express a preference.  Angular is well known, and React.js has lots of good buzz around it.  So why use the lesser known Polymer?  If you have done the tutorial then you know that Polymer has some nice components available for it, good encapsulation for custom WebComponents, support for repeting sections, and very useful data binding features.  These come together to bring a lot of functionality in some pretty tidy JavaScript that's easy to understand.
+There are lots of great choices for JavaScript libraries out there, and Pivotal doen't express a preference.  Angular is well known, and React.js has lots of good buzz around it.  So why use the lesser known Polymer?  If you have done the tutorial then you know that Polymer has some nice components available for it, good encapsulation for custom WebComponents, support for repeting sections, and very useful data binding features.  These come together to bring a lot of functionality for a small amount of JavaScript that's relatively easy to understand.

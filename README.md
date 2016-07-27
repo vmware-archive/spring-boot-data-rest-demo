@@ -9,7 +9,7 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
-4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, and **MySQL**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
+4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
 
 ![starter1](./img/starter1.png)
 ![starter2](./img/starter2.png)
@@ -134,7 +134,7 @@ spring:
       ddl-auto: create-drop
 ```
 
-The first property sets the logging level for everything under the package io.pivotal to DEBUG.  If you named you package something different change the properties to reflect the proper name.  This will allow you to see your logging messages in the Configuration class.
+Spring Boot use a convention where it loads applications.yml (or .properties) by default.  The first property sets the logging level for everything under the package io.pivotal to DEBUG.  If you named you package something different change the properties to reflect the proper name.  This will allow you to see your logging messages in the Configuration class.
 
 The second property is a Hibernate specific setting.  This will create a schema in the DB to support our applicaiton (destroying any existing version), and when the app closes the Session the schema will be deleted.  This is good for demos where you want to keep your DB clean.  (See the hibernate documentation on more options for this setting.)
 
@@ -146,6 +146,14 @@ With all that done, launch the app and browse the data!
 2. Switch to or launch a browser and go to the URL: http://localhost:8080/greetings
 
 ![alt text](./img/boot-dashboard.png)
+
+###6.1 Check out the Actuator
+
+Spring Boot brought us Actuator which generates a set of endpoints that provides information about what's happening in your application.  Take a minute and look at all the good things you have access to view.
+
+http://localhost:8080/env
+http://localhost:8080/beans
+
 
 ##7 Add a Search Method
 
@@ -185,9 +193,11 @@ In this step you will build the application into a self-executing jar file and d
 $ cd ~/S1P2016/workspace/<your_project>
 $ ./mvnw clean package
 (lots of output from build)
-$ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar
+$ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar --random-route
 (lots of output from the push)
 ```
+
+The --random-route flag tells Cloud Fundry to add random words to the URL for your app so that it won't conflict with any other applications that might use the same name you did.
 
 ## Add a Fancy UI
 
