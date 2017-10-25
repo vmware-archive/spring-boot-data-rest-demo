@@ -1,10 +1,10 @@
-#Build a Spring Boot Application with JPA
+# Build a Spring Boot Application with JPA
 
 In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of HSQLDB, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
 
 You'll start with a shell project, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a MySQL database instance.
 
-##1 Create a new project using the Spring Initializer
+## 1 Create a new project using the Spring Initializer
 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
@@ -16,7 +16,7 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
-##2 Add Domain Object
+## 2 Add Domain Object
 
 First create a basic class to model a domain.  This will be nothing more then a string with an id.
 
@@ -62,7 +62,7 @@ public class Greeting {
 }
 ```
 
-##3 Add Repository
+## 3 Add Repository
 
 Next, create an Interface that will tell Spring Data that you want to setup a Repository to manage our new Domain class.  The empty repository definition will create it with only basic operations.
 
@@ -81,7 +81,7 @@ public interface GreetingRepository extends JpaRepository<Greeting, Integer> {
 ```
 (Yes, it really is this easy to define a Repository!)
 
-##4 Setup the DB with Initial Data
+## 4 Setup the DB with Initial Data
 
 In this step you will create a Configuration class that will generate a Bean of type CommandLineRunner.  Instances of this class will be run by Spring Boot when it starts up.  We'll use Spring's dependancy injection to pass in our Spring Data created Repository, and then populate it with some data.  A little bit of Java 8 lambda goodness will make it look pretty.
 
@@ -118,7 +118,7 @@ public class GreetingConfig {
 }
 ```
 
-##5 Set Default Properties
+## 5 Set Default Properties
 
 1. Rename the file src/main/resources/application.properties to application.yml (select the file, and use the menu Refactor -> Rename...)
 2. Add the following properties
@@ -138,7 +138,7 @@ Spring Boot use a convention where it loads applications.yml (or .properties) by
 
 The second property is a Hibernate specific setting.  This will create a schema in the DB to support our applicaiton (destroying any existing version), and when the app closes the Session the schema will be deleted.  This is good for demos where you want to keep your DB clean.  (See the hibernate documentation on more options for this setting.)
 
-##6 Browse the Data
+## 6 Browse the Data
 
 With all that done, launch the app and browse the data!
 
@@ -147,7 +147,7 @@ With all that done, launch the app and browse the data!
 
 ![alt text](./img/boot-dashboard.png)
 
-###6.1 Check out the Actuator
+### 6.1 Check out the Actuator
 
 Spring Boot brought us Actuator which generates a set of endpoints that provides information about what's happening in your application.  Take a minute and look at all the good things you have access to view.
 
@@ -155,7 +155,7 @@ http://localhost:8080/env
 http://localhost:8080/beans
 
 
-##7 Add a Search Method
+## 7 Add a Search Method
 
 Now add a method to the Repository to do some searching.
 
@@ -181,7 +181,7 @@ Notice the format that it gives you to search.  You can now find the two records
 
 http://localhost:8080/greetings/search/findByText?text=Hello
 
-##8 Push to Cloud Foundry
+## 8 Push to Cloud Foundry
 
 In this step you will build the application into a self-executing jar file and deploy it onto the Pivotal WebServices instance of Cloud Foundry using the command line tool ```cf```.  The tool is already installed on the demo machine, and logged in to an account.  For more information on all this, check out the demo and talk with the technical team at the PCF stations.
 
@@ -199,11 +199,13 @@ $ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar --random-rout
 
 The --random-route flag tells Cloud Fundry to add random words to the URL for your app so that it won't conflict with any other applications that might use the same name you did.
 
+<!---
 ## Add a Fancy UI
 
 This is an optional step if you want to explore what a JavaScript consumer would look like.
 
-If you're intereted click the link: [Add UI](AddUI.md)
+If you're interested click the link: [Add UI](AddUI.md)
+--->
 
 ## Cleanup
 
