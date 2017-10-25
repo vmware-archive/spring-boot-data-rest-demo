@@ -1,6 +1,6 @@
 # Build a Spring Boot Application with JPA
 
-In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of HSQLDB, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
+In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of H2, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
 
 You'll start with a shell project, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a MySQL database instance.
 
@@ -9,7 +9,9 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
-4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **HSQLDB**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
+4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
+5. Select Boot 2.0.0.M5 (or most current).  There are a couple of differences with the new
+version of Boot that will be pointed out.
 
 ![starter1](./img/starter1.png)
 ![starter2](./img/starter2.png)
@@ -149,10 +151,22 @@ With all that done, launch the app and browse the data!
 
 ### 6.1 Check out the Actuator
 
-Spring Boot brought us Actuator which generates a set of endpoints that provides information about what's happening in your application.  Take a minute and look at all the good things you have access to view.
+Spring Boot brought us Actuator which generates a set of endpoints that provides information about what's happening in your application.  Boot 2 has added extra security to the actuator so enable env and beans in the property file.
 
-http://localhost:8080/env
-http://localhost:8080/beans
+1.  Open application.yml and add the following properties
+
+```
+endpoints:
+  beans:
+    enabled: true
+  env:
+    enabled: true
+```
+
+Take a minute and look at all the good things you have access to view.  Note that the default URL has also changed slightly to include "application" in the path.
+
+http://localhost:8080/application/env
+http://localhost:8080/applicaiton/beans
 
 
 ## 7 Add a Search Method
@@ -190,7 +204,7 @@ In this step you will build the application into a self-executing jar file and d
 3. Push the applicaiton to Cloud Foundry
 
 ```bash
-$ cd ~/S1P2016/workspace/<your_project>
+$ cd ~/S1P2017/workspace/<your_project>
 $ ./mvnw clean package
 (lots of output from build)
 $ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar --random-route
