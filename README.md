@@ -145,7 +145,9 @@ The second property is a Hibernate specific setting.  This will create a schema 
 With all that done, launch the app and browse the data!
 
 1. From the Boot Dashboard on STS select the application you created and click the start/re-start button (the one with the red square and green arrow on it).
+
 ![alt text](./img/boot-dashboard.png)
+
 2. Switch to or launch a browser and go to the URL: http://localhost:8080/greetings
 
 
