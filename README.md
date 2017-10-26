@@ -9,11 +9,13 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 1. If it's not running already launch SpringSource Tool Suite (STS)
 2. File -> New -> Spring Starter Project
 3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
+
+![starter1](./img/starter1.png)
+
 4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
 5. Select Boot 2.0.0.M5 (or most current).  There are a couple of differences with the new
 version of Boot that will be pointed out.
 
-![starter1](./img/starter1.png)
 ![starter2](./img/starter2.png)
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
@@ -164,8 +166,9 @@ endpoints:
   env:
     enabled: true
 ```
+2. Restart the application
 
-Take a minute and look at all the good things you have access to view.  Note that the default URL has also changed slightly to include "application" in the path.
+Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 to include "application" in the path.
 
 http://localhost:8080/application/env
 
@@ -186,13 +189,15 @@ import org.springframework.data.repository.query.Param;
   List<Greeting> findByText(@Param("text") String text);  
 ```
 
-1. Go to the GreetingConfig class and add the following to the part where you create records:
+2. Go to the GreetingConfig class and add the following to the part where you create records:
 
 ```java
       gr.save(new Greeting("Hello"));
 ```
 
-Restart the application and browse to the URL: http://localhost:8080/greetings/search
+This will add a new record with the same value so we can search and find 2 entries.
+
+3. Restart the application and browse to the URL: http://localhost:8080/greetings/search
 
 Notice the format that it gives you to search.  You can now find the two records you entered that have the value Hello with a URL like this:
 
