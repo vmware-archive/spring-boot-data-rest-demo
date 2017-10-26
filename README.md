@@ -168,6 +168,7 @@ endpoints:
 Take a minute and look at all the good things you have access to view.  Note that the default URL has also changed slightly to include "application" in the path.
 
 http://localhost:8080/application/env
+
 http://localhost:8080/applicaiton/beans
 
 
