@@ -1,0 +1,13 @@
+logging:
+  level:
+    io:
+      pivotal: DEBUG
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+endpoints:
+  beans:
+    enabled: true
+  env:
+    enabled: true
