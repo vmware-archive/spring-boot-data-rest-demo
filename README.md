@@ -176,12 +176,15 @@ management:
 
 2. Restart the application
 
-Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 to include "application" in the path.
+Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 M5 to include "application" in the path, on Spring Boot 2.0 M7 it's back to actuator.
 
+**Spring 2.0 M5**
 http://localhost:8080/application/env
-
 http://localhost:8080/applicaiton/beans
 
+**Spring 2.0 M7+**
+http://localhost:8080/actuator/env
+http://localhost:8080/actuator/beans
 
 ## 7 Add a Search Method
 
