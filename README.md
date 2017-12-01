@@ -157,7 +157,7 @@ With all that done, launch the app and browse the data!
 
 Spring Boot brought us Actuator which generates a set of endpoints that provides information about what's happening in your application.  Boot 2 has added extra security to the actuator so enable env and beans in the property file.
 
-1.  Open application.yml and add the following properties
+1.  Open application.yml and add the following properties in Spring 2.0 M5
 
 ```
 endpoints:
@@ -166,14 +166,25 @@ endpoints:
   env:
     enabled: true
 ```
+**If using Spring 2.0 M7+**, this changes to:
+```
+management:
+  endpoints:
+    web:
+      expose: 'beans,env'
+```
+
 2. Restart the application
 
-Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 to include "application" in the path.
+Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 M5 to include "application" in the path, on Spring Boot 2.0 M7 it's back to actuator.
 
+**Spring 2.0 M5**
 http://localhost:8080/application/env
-
 http://localhost:8080/applicaiton/beans
 
+**Spring 2.0 M7+**
+http://localhost:8080/actuator/env
+http://localhost:8080/actuator/beans
 
 ## 7 Add a Search Method
 
