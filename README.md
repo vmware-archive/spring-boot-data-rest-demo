@@ -13,7 +13,7 @@ You'll start with a shell project, create a Domain, add an Interface which will 
 ![starter1](./img/starter1.png)
 
 4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
-5. Select Boot 2.0.0.M5 (or most current).  There are a couple of differences with the new
+5. Select Boot 2.0.5 (or most current).  There are a couple of differences with the new
 version of Boot that will be pointed out.
 
 ![starter2](./img/starter2.png)
@@ -160,11 +160,18 @@ Spring Boot brought us Actuator which generates a set of endpoints that provides
 1.  Open application.yml and add the following properties
 
 ```
-endpoints:
-  beans:
-    enabled: true
-  env:
-    enabled: true
+management:
+  endpoint:
+    beans:
+      enabled: true
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+        - beans
+        - env 
 ```
 2. Restart the application
 
@@ -219,7 +226,7 @@ $ cf push your_app_name -p target/your_app_name-0.0.1-SNAPSHOT.jar --random-rout
 (lots of output from the push)
 ```
 
-The --random-route flag tells Cloud Fundry to add random words to the URL for your app so that it won't conflict with any other applications that might use the same name you did.
+The --random-route flag tells Cloud Foundry to add random words to the URL for your app so that it won't conflict with any other applications that might use the same name you did.
 
 <!---
 ## Add a Fancy UI
