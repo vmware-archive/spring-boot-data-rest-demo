@@ -1,22 +1,22 @@
 # Build a Spring Boot Application with JPA
 
-In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of H2, but when pushed to Cloud Foundry and bound with a MySQL instance it will "auto-magically" use it instead.
+In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of H2, but when pushed to Cloud Foundry and bound with a MySQL or Postgres service it will auto-magically use it instead.
 
-You'll start with a shell project, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a MySQL database instance.
+You'll start with a shell project from start.spring.io, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a sql database instance.
 
 ## 1 Create a new project using the Spring Initializer
 
-1. If it's not running already launch SpringSource Tool Suite (STS)
-2. File -> New -> Spring Starter Project
-3. Enter a unique name and artifact-id.  You can also enter other information as you like (group-id, package, etc.).  Click Next when done.
+1. If it's not running already launch a browser and navigate to http://start.spring.io
+2. Enter a unique group and artifact id.
 
 ![starter1](./img/starter1.png)
 
-4. Add feature to the application by checking: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Click Finish when done, and this will create and load the new project into STS.  Use the search box to find them if they're not listed at the top.
-5. Select Boot 2.0.0.M5 (or most current).  There are a couple of differences with the new
-version of Boot that will be pointed out.
+3. Expand More Options to see other things you can set.
+4. Add features to the application by selecting: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Start typing the name of the dependency and select it when it comes up on the list.
 
 ![starter2](./img/starter2.png)
+
+5. Generate the project ![generate](./img/gen_project.png)
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
