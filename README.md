@@ -17,6 +17,8 @@ You'll start with a shell project from start.spring.io, create a Domain, add an 
 ![starter2](./img/starter2.png)
 
 5. Generate the project ![generate](./img/gen_project.png)
+6. Extract the zip into a directory
+7. Open the project.  On Pivotal demo laptops there is both STS as well as IntelliJ.
 
 If you're not familiar with Spring Boot apps spend a little time exploring the project.  There's a "main" class that tells Spring to start up and initialize everything, an applications.properties that's a default location for key/value pairs, and the POM is setup with dependancies that will tell Spring Boot to do things for us.  For example, adding the Web starter tells Boot to embed a Tomcat server in our app and setup its context so it just works.
 
