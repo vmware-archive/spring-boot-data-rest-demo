@@ -1,8 +1,8 @@
 # Build a Spring Boot Application with JPA
 
-In this exercise you'll build a basic Spring Boot application that uses JPA access a database. When run locally it will use an in memory instance of H2, but when pushed to Cloud Foundry and bound with a MySQL or Postgres service it will auto-magically use it instead.
+In this exercise you'll build a basic Spring Boot application that uses JPA to access a database. When run locally (un-attached to any DB) it will use an in memory instance of H2, but if a datasource is present (eg: by adding it to the properties) it'll use it.  When pushed to Cloud Foundry and bound with a MySQL or Postgres service it will auto-magically use it instead.
 
-You'll start with a shell project from start.spring.io, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you will push it to Cloud Fundry and bind to a sql database instance.
+You'll start with a shell project from start.spring.io, create a Domain, add an Interface which will tell Spring Data to create a Repository, and then add a bit of code to initialize it with some data.  After that you'll be able to start it as a Web application and browse the data via a ReSTful API.  With that done, you'll enhance the service.  Finally, you can try pushing it to Cloud Fundry and binding it to a sql database instance.
 
 ## 1 Create a new project using the Spring Initializer
 
@@ -12,7 +12,7 @@ You'll start with a shell project from start.spring.io, create a Domain, add an 
 ![starter1](./img/starter1.png)
 
 3. Expand More Options to see other things you can set.
-4. Add features to the application by selecting: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Start typing the name of the dependency and select it when it comes up on the list.
+4. Add the following features to the application: **Web**, **JPA**, **Rest Repositories**, **H2**, **MySQL**, and **Actuator**.  Start typing the name of the dependency and select it when it comes up on the list.
 
 ![starter2](./img/starter2.png)
 
@@ -26,9 +26,8 @@ If you're not familiar with Spring Boot apps spend a little time exploring the p
 
 First create a basic class to model a domain.  This will be nothing more then a string with an id.
 
-1. Right click on the package under src/main/java and select New -> Class
-2. Enter Greeting for the class name, and click Finish
-3. In the new class add the following code:
+1. Open the file with the primary applicaiton class.  eg: MyDemoApplication.java
+2. Add a new class with the following code:
 
 ```java
 // imports for JPA (put them at the top)
@@ -38,7 +37,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Greeting {
+class Greeting {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,7 +70,7 @@ public class Greeting {
 
 Next, create an Interface that will tell Spring Data that you want to setup a Repository to manage our new Domain class.  The empty repository definition will create it with only basic operations.
 
-1. Right click on the package under src/main/java and select New -> Interface
+1. Create a new file to define a public interface.  eg: Right click on the package under src/main/java and select New -> Interface
 2. Enter GreetingRepository for the name, and click Finish
 3. In the new interface add the following code:
 
@@ -79,13 +78,14 @@ Next, create an Interface that will tell Spring Data that you want to setup a Re
 // import for Spring Data
 import org.springframework.data.jpa.repository.JpaRepository;
 
-interface GreetingRepository extends JpaRepository<Greeting, Integer> { }
+public interface GreetingRepository extends JpaRepository<Greeting, Integer> {
+}
 ```
-(Yes, it really is this easy to define a Repository!)
+Yes, it really is this easy to define a Repository!  The presence of this interface will result in Spring Data creating a repository in the context that can then be accessed by the app.
 
 ## 4 Setup the DB with Initial Data
 
-In this step you will generate a Bean of type ApplicationRunner.  Instances of this class are run by Spring Boot when it starts up.  We'll use Spring's dependancy injection to pass in our Spring Data created Repository, and then populate it with some data.  A little bit of Java 8 lambda goodness will make it look pretty.
+In this step you will generate a Bean of type ApplicationRunner.  Instances of this class are run by Spring Boot when it starts up.  We'll use Spring's dependancy injection to pass in our Spring Data created Repository, and then populate it with some data.
 
 1. Go back to the main application class file (eg: MyDemoApplication.java)
 2. Add the following code:
@@ -101,7 +101,7 @@ import org.springframework.context.annotation.Bean;
 
     Logger logger = LoggerFactory.getLogger(MyDemoApplication.class);
 
-    // Loads the database on startup
+    // Loads the database on startup using the repository created by Spring Data.
     @Bean
     ApplicationRunner loadDatabase(GreetingRepository gr) {
         return appRunner -> {
@@ -132,7 +132,7 @@ spring:
       ddl-auto: create-drop
 ```
 
-Spring Boot use a convention where it loads applications.yml (or .properties) by default.  The first property sets the logging level for everything under the package io.pivotal to DEBUG.  If you named you package something different change the properties to reflect the proper name.  This will allow you to see your logging messages in the Configuration class.
+Spring Boot uses a convention where it loads applications.yml (or .properties) by default.  The first property sets the logging level for everything under the package io.pivotal to DEBUG.  If you named you package something different change the properties to reflect the proper name.  This will allow you to see your logging messages in the Configuration class.
 
 The second property is a Hibernate specific setting.  This will create a schema in the DB to support our applicaiton (destroying any existing version), and when the app closes the Session the schema will be deleted.  This is good for demos where you want to keep your DB clean.  (See the hibernate documentation on more options for this setting.)
 
@@ -140,9 +140,9 @@ The second property is a Hibernate specific setting.  This will create a schema 
 
 With all that done, launch the app and browse the data!
 
-1. From the Boot Dashboard on STS select the application you created and click the start/re-start button (the one with the red square and green arrow on it).
+1. Run MyDemoApplication either by the using a run command or using the Boot Dashboard.  Notice the entries being added by the ApplicationRunner.
 
-![alt text](./img/boot-dashboard.png)
+![alt text](./img/console-output-2.png)
 
 2. Switch to or launch a browser and go to the URL: http://localhost:8080/greetings
 
@@ -154,15 +154,15 @@ Spring Boot brought us Actuator which generates a set of endpoints that provides
 1.  Open application.yml and add the following properties
 
 ```
-endpoints:
-  beans:
-    enabled: true
-  env:
-    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,beans
 ```
 2. Restart the application
 
-Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 to include "application" in the path.
+Take a minute and look at all the good things you have access to view.  Note: the default URL has changed back to the original style and security is off by default.
 
 http://localhost:8080/actuator/env
 
