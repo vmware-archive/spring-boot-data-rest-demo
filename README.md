@@ -31,8 +31,7 @@ First create a basic class to model a domain.  This will be nothing more then a 
 3. In the new class add the following code:
 
 ```java
-package io.pivotal.demo;  //don't copy/paste this unless is matches your packge name
-
+// imports for JPA (put them at the top)
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -77,51 +76,44 @@ Next, create an Interface that will tell Spring Data that you want to setup a Re
 3. In the new interface add the following code:
 
 ```java
-package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
-
+// import for Spring Data
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GreetingRepository extends JpaRepository<Greeting, Integer> {
- 
-}
+interface GreetingRepository extends JpaRepository<Greeting, Integer> { }
 ```
 (Yes, it really is this easy to define a Repository!)
 
 ## 4 Setup the DB with Initial Data
 
-In this step you will create a Configuration class that will generate a Bean of type CommandLineRunner.  Instances of this class will be run by Spring Boot when it starts up.  We'll use Spring's dependancy injection to pass in our Spring Data created Repository, and then populate it with some data.  A little bit of Java 8 lambda goodness will make it look pretty.
+In this step you will generate a Bean of type ApplicationRunner.  Instances of this class are run by Spring Boot when it starts up.  We'll use Spring's dependancy injection to pass in our Spring Data created Repository, and then populate it with some data.  A little bit of Java 8 lambda goodness will make it look pretty.
 
-1. Right click on the package under src/main/java and select New -> Class
-2. Enter GreetingConfig for the name, and click Finish
-3. In the new class add the following code:
+1. Go back to the main application class file (eg: MyDemoApplication.java)
+2. Add the following code:
 
 ```java
-package io.pivotal.demo; //don't copy/paste this unless is matches your packge name
-
+// imports for the Application runner
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
-public class GreetingConfig {
+// public class MyDemoApplication {
 
-  Logger logger = LoggerFactory.getLogger(GreetingConfig.class);
+    Logger logger = LoggerFactory.getLogger(MyDemoApplication.class);
 
-  // Loads the database on startup
-  @Bean
-  CommandLineRunner loadDatabase(GreetingRepository gr) {
-    return commandLineRunner -> {
-      logger.debug("loading database..");
-      gr.save(new Greeting("Hello"));
-      gr.save(new Greeting("Hola"));
-      gr.save(new Greeting("Ohai"));
-      logger.debug("record count: {}", gr.count());
-      gr.findAll().forEach(x -> logger.debug(x.toString()));
-    };
-  }
-}
+    // Loads the database on startup
+    @Bean
+    ApplicationRunner loadDatabase(GreetingRepository gr) {
+        return appRunner -> {
+            logger.debug("loading database..");
+            gr.save(new Greeting("Hello"));
+            gr.save(new Greeting("Hola"));
+            gr.save(new Greeting("Ohai"));
+            logger.debug("record count: {}", gr.count());
+            gr.findAll().forEach(x -> logger.debug(x.toString()));
+        };
+    }
+    ...
 ```
 
 ## 5 Set Default Properties
@@ -172,16 +164,16 @@ endpoints:
 
 Take a minute and look at all the good things you have access to view.  Note: that the default URL has also changed slightly with Boot 2 to include "application" in the path.
 
-http://localhost:8080/application/env
+http://localhost:8080/actuator/env
 
-http://localhost:8080/applicaiton/beans
+http://localhost:8080/actuator/beans
 
 
 ## 7 Add a Search Method
 
 Now add a method to the Repository to do some searching.
 
-1.  Go to the GreetingRepository class and add the following imports/method:
+1.  Go to the GreetingRepository file and add the following imports/method:
 
 ```java
 import java.util.List;
@@ -191,7 +183,7 @@ import org.springframework.data.repository.query.Param;
   List<Greeting> findByText(@Param("text") String text);  
 ```
 
-2. Go to the GreetingConfig class and add the following to the part where you create records:
+2. Go to the ApplicationRunner and add the following to the part where you create records:
 
 ```java
       gr.save(new Greeting("Hello"));
